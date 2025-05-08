@@ -1,7 +1,7 @@
 // page login
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function Login() {
 
@@ -9,22 +9,29 @@ export default function Login() {
     const [password, setPassword] = useState(''); //passagem de senha
     const [messageError, setMessageError] = useState(''); //passagem de error 
     const [messageSuccess, setMessageSuccess] = useState(''); // passagem de acerto
-    const [response, SetResponse] = useState('');
-    const [redirectToDashboard, setRedirectToDashboard] = useState(false);
+    const navigate = useNavigate();
+    
 
     const handleLogin = () => { 
         axios
-          .get('http://localhost:3001/users', { //busca no seu banco de dados se tem esse email e login
+          .get('http://localhost:3000/users', { //busca no seu banco de dados se tem esse email e login
             params: {email, password}
           })
           .then((response) => {
-            console.log(response);
-            setMessageSuccess('Login realizado com sucesso');      //retorna sucesso e redireciona para o dashboard
-            setRedirectToDashboard(true);
+            if (response.data.length > 0) {
+              // Encontrou um usuário com o email e senha
+              setMessageSuccess('Login realizado com sucesso');
+              navigate('/Dashboard')
+
+            } else {
+              // Nenhum usuário encontrado = login inválido
+              setMessageError('Email ou senha inválidos');
+
+            }
           })
           .catch((error) => {
             console.log(error);
-            setMessageError('Email ou senha inválidos');           //retorna erro
+            setMessageError('Erro no sistema, tente novamente mais tarde');           //retorna erro
           });
       };
     
@@ -50,7 +57,8 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             className='w-full p-3 mb-6 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4BAF8E]'
         />
-        <p className='text-xs text-red-500'>{messageError}</p>
+        <p className={`text-xs ${messageError ? 'text-red-500' : ''} ${messageSuccess ? 'text-green-500' : ''}`}> {messageError || messageSuccess}</p>
+
         <button 
         onClick={handleLogin}
         className='w-full p-3 bg-[#4BAF8E] text-white font-semibold

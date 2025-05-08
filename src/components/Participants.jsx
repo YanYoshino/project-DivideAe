@@ -1,45 +1,61 @@
-import React, {useState} from "react";
+// src/components/Participants.jsx
+import React, { useState } from "react";
 
+const Participants = ({ participants, setParticipants }) => {
+  const [name, setName] = useState("");
 
-const Participants = ({participants, setParticipants}) => { //recebe e guarda os participantes
-    const [name, setName] = useState(''); //nome do participante
+  const handleAdd = () => {
+    if (name.trim() === "") return;
+    const newParticipant = {
+      id: Date.now(),
+      name,
+      purchases: [], // compras dessa pessoa
+    };
+    setParticipants([...participants, newParticipant]);
+    setName("");
+  };
 
-    const handleAddParticipant = () => { //executando o botão
-        if(name.trim() === '' ) return; //garante que o nome não está vazio caso estiver retorna nada
+  const handleRemove = (id) => {
+    const filtered = participants.filter((p) => p.id !== id);
+    setParticipants(filtered);
+  };
 
-        const nemParticipant = { //adciona o participante e as compras no caso vazio agora
-            name, purchases: [], 
-        };
+  return (
+    <div>
+      <div className="flex gap-2 mb-4">
+        <input
+          type="text"
+          placeholder="Nome da pessoa"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="flex-1 border focus:outline-none focus:ring-1 focus:ring-green-400 rounded-xl px-3 py-1.5 shadow-sm"
+        />
+        <button
+          onClick={handleAdd}
+          className="bg-green-600 text-white px-4 py-1.5 rounded-xl hover:bg-green-700"
+        >
+          Adicionar
+        </button>
+      </div>
 
-        setParticipants([...participants, nemParticipant]); //adcionado os novos participanges a Participants
-        setName(''); //limpa o código 
-    }
-
-    return (
-        <div>
-        <div className='flex mb-4'>
-            <input
-            type='text'
-            className='flex-1 p-2 border rounded-l-md focus:border-[#4BAF8E] focus:outline-none'
-            placeholder='Nome do participante'
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            />
-    
-            <button 
-            onClick={handleAddParticipant}
-            className='bg-[#4BAF8E] text-white px-4 rounded-r-md hover:bg-[#4c9079]'
+      <ul className="space-y-2">
+        {participants.map((pessoa) => (
+          <li
+            key={pessoa.id}
+            className="flex justify-between items-center bg-gray-50 border px-4 py-2 rounded-xl"
+          >
+            <span>{pessoa.name}</span>
+            <button
+              onClick={() => handleRemove(pessoa.id)}
+              className="text-red-500 hover:underline"
             >
-            Adicionar
+              Remover
             </button>
-        </div>
-    
-        <ul className='list-disc list-inside'>
-            {participants.map((p, index) => (
-            <li key={index}>{p.name}</li>
-            ))}
-        </ul>
-        </div>
-    );
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 };
-  export default Participants;
+
+export default Participants;

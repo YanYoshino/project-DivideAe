@@ -12,7 +12,11 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.5",
     "axios": "^1.9.0",
+    "chart.js": "^4.4.9",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "react": "^19.1.0",
+    "react-chartjs-2": "^5.3.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.5.3",
     "recharts": "^2.15.3",
@@ -29,5 +33,18 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "vite": "^6.3.5"
-  }
+  },
+  "description": "Dividir conta com os amigos. >>>>>>> 21d1c392dfab4808af20a9948fea6dd4ee4deeb7",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YanYoshino/project-DivideAe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YanYoshino/project-DivideAe/issues"
+  },
+  "homepage": "https://github.com/YanYoshino/project-DivideAe#readme"
 }
